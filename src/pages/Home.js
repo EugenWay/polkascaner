@@ -1,14 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { ApiPromise, WsProvider } from "@polkadot/api";
 import BlockList from "../components/BlockList";
 import BlockChainInfo from "../components/BlockChainInfo";
 import PreLoader from "../components/Loader";
 import Search from "../components/Search";
-import Alert from "../components/Alert"
-import { decodeAddress, encodeAddress } from '@polkadot/keyring';
-import { hexToU8a, isHex } from '@polkadot/util';
+import Alert from "../components/Alert";
 
+import { ApiPromise, WsProvider } from "@polkadot/api";
+import { decodeAddress, encodeAddress } from "@polkadot/keyring";
+import { hexToU8a, isHex } from "@polkadot/util";
 
 export const Home = () => {
   const [blocks, setBlocks] = useState([]);
@@ -17,7 +17,7 @@ export const Home = () => {
     isActive: false,
     type: "alert-primary",
     msg: "",
-  })
+  });
 
   useEffect(() => {
     const connectChain = async () => {
@@ -42,6 +42,12 @@ export const Home = () => {
             ]);
           }
         );
+
+
+        // setTimeout(() => {
+        //   unsubHeads();
+        //   console.log('Unsubscribed');
+        // }, 20000);
       } catch (err) {
         console.log(err);
       }
@@ -53,39 +59,41 @@ export const Home = () => {
   const isValidAddressPolkadotAddress = (address) => {
     try {
       encodeAddress(
-        isHex(address)
-          ? hexToU8a(address)
-          : decodeAddress(address)
+        isHex(address) ? hexToU8a(address) : decodeAddress(address)
       );
-  
+
       return true;
     } catch (error) {
       return false;
     }
   };
 
-
   const getDataSearch = (event) => {
-    if(event.key === 'Enter'){
-      if(isValidAddressPolkadotAddress(event.target.value)) {
-          window.location.href = `account/${event.target.value}`
+    if (event.key === "Enter") {
+      if (isValidAddressPolkadotAddress(event.target.value)) {
+        window.location.href = `account/${event.target.value}`;
+      } else if (
+        !isNaN(event.target.value) && event.target.value <= lastBlock
+      ) {
+        console.log("here")
+        window.location.href = `block/${event.target.value}`;
       } else {
-          setAlert({
-            isActive: true,
-            type: "alert-danger",
-            msg: "This is not a valid Substrate adress. Please cheack again",
-          })
-          console.log("Это плохой адресс!")
+        setAlert({
+          isActive: true,
+          type: "alert-danger",
+          msg: "This is not a block or valid Substrate adress. Please cheack again",
+        });
+
+        console.log("Wrong adress!");
       }
-      
     }
-  }
+  };
 
   return lastBlock ? (
     <div>
-      <BlockChainInfo lastBlock={lastBlock}/>
-      <Alert type={alert.type} msg={alert.msg} isActive={alert.isActive}/>
-      <Search handler={getDataSearch}/>
+      <BlockChainInfo lastBlock={lastBlock} />
+      <Alert type={alert.type} msg={alert.msg} isActive={alert.isActive} />
+      <Search handler={getDataSearch} />
       <BlockList list={blocks} />
     </div>
   ) : (

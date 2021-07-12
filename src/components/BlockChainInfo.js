@@ -31,7 +31,7 @@ const BlockChainInfo = ({lastBlock}) => {
       <div className="card-box">
         <div className="card-body">
             <p className="card-text">
-             Runtime vercion
+             Runtime version
           </p>
           <h5 className="card-title">9050</h5>
           

@@ -1,5 +1,6 @@
 import React from "react";
 import Identicon from "@polkadot/react-identicon";
+import { Link } from 'react-router-dom';
 
 const BlockList = ({ list }) => {
   const size = 32;
@@ -8,7 +9,7 @@ const BlockList = ({ list }) => {
   const blockInfo = list.map((item, i) => {
     return (
       <tr key={i}>
-        <th scope="row">{item.number}</th>
+        <th scope="row"><Link to={`/block/${item.number}`}>{item.number}</Link></th>
         <td>{item.hash}</td>
         <td>
           <Identicon value={item.author} size={size} theme={theme} />
