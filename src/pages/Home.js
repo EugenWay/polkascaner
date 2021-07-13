@@ -19,14 +19,13 @@ export const Home = () => {
     msg: "",
   });
 
+
   useEffect(() => {
     const connectChain = async () => {
       try {
         const wsProvider = new WsProvider("wss://rpc.polkadot.io");
         const api = await ApiPromise.create({ provider: wsProvider });
         await api.isReady;
-
-        const chain = await api.rpc.system.chain();
 
         // Subscribe to the new headers
         const unsubHeads = await api.derive.chain.subscribeNewHeads(
@@ -42,12 +41,7 @@ export const Home = () => {
             ]);
           }
         );
-
-
-        // setTimeout(() => {
-        //   unsubHeads();
-        //   console.log('Unsubscribed');
-        // }, 20000);
+    
       } catch (err) {
         console.log(err);
       }

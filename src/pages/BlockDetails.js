@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import PreLoader from "../components/Loader";
 import Identicon from "@polkadot/react-identicon";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export const BlockDetails = () => {
-  const [block, setBlock] = useState(
-    window.location.pathname.replace(/\/block\//g, "")
-  );
+
+  const { id } = useParams();
+  const [block, setBlock] = useState(id);
   const [fetching, setFetching] = useState(true);
 
   const [header, setHeader] = useState(null);
@@ -45,29 +45,6 @@ export const BlockDetails = () => {
 
         setFetching(false);
 
-        signedBlock.block.extrinsics.forEach((ex, index) => {
-          // the extrinsics are decoded by the API, human-like view
-          console.log(index, ex.toHuman());
-
-          const {
-            isSigned,
-            meta,
-            method: { args, method, section },
-          } = ex;
-
-          // explicit display of name, args & documentation
-          console.log(
-            `${section}.${method}(${args.map((a) => a.toString()).join(", ")})`
-          );
-          console.log(meta.documentation.map((d) => d.toString()).join("\n"));
-
-          // signer/nonce info
-          if (isSigned) {
-            console.log(
-              `signer=${ex.signer.toString()}, nonce=${ex.nonce.toString()}`
-            );
-          }
-        });
       } catch (err) {
         console.log(err);
       }
@@ -93,7 +70,7 @@ export const BlockDetails = () => {
           <tr>
             <th scope="row">Parent hash</th>
             <td>
-              <Link to={`/block/${parentBlock}`}>{parentHash}</Link>
+              <a href={`/block/${parentBlock}`}>{parentHash}</a>
             </td>
           </tr>
           <tr>

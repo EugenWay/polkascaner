@@ -15,8 +15,8 @@ function App() {
         <Switch>
           <Route path={"/"} exact component={Home} />
           <Route path={"/about"} component={About} />
-          <Route path={"/account"} component={AccountDetails} />
-          <Route path={"/block"} component={BlockDetails} />
+          <Route path={"/account/:adress"} component={AccountDetails} />
+          <Route path={"/block/:id"} component={BlockDetails} />
           <Route path={"/search"} component={SearchResult} />
         </Switch>
       </div>

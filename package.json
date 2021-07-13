@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.3",
     "@polkadot/api": "^4.17.1",
     "@polkadot/keyring": "^6.11.1",
     "@polkadot/react-identicon": "^0.83.1",
