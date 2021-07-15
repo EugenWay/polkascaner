@@ -22,6 +22,7 @@ const Navbar = () => {
               </NavLink>
             </li>
           </ul>
+          
           <span className="navbar-text">v. 0.42</span>
         </div>
       </div>

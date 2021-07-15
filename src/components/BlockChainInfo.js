@@ -1,6 +1,6 @@
 import React from "react";
 
-const BlockChainInfo = ({lastBlock}) => {
+const BlockChainInfo = ({lastBlock, toggler}) => {
   return (
     <div className="card-deck">
       <div className="card-box">
@@ -34,7 +34,9 @@ const BlockChainInfo = ({lastBlock}) => {
              Runtime version
           </p>
           <h5 className="card-title">9050</h5>
-          
+          <form className="justify-content-start">
+            <button className="btn btn-outline-success me-2" type="button" onClick={toggler}>Toggle Network</button>
+          </form>
         </div>
       </div>
     </div>

@@ -19,6 +19,7 @@ export const BlockDetails = () => {
   const [stateRoot, setStateRoot] = useState(null);
   const [extrinsicsRoot, setExtrinsicsRoot] = useState(null);
   const [creationDate, setCreationDate] = useState(``);
+  const [extrinsics, setExtrinsics] = useState(null);
 
   useEffect(() => {
     const connectChain = async () => {
@@ -30,9 +31,21 @@ export const BlockDetails = () => {
         const blockHash = await api.rpc.chain.getBlockHash(block);
         const signedBlock = await api.rpc.chain.getBlock(blockHash);
         const header = await api.derive.chain.getHeader(blockHash);
-
+        
         const timestamp = await api.query.timestamp.now.at(blockHash);
         const date = new Date(timestamp.toNumber());
+
+        setExtrinsics(signedBlock.block.extrinsics.map((ex, index) => {
+
+          const { isSigned, meta, method: { args, method, section } } = ex;
+
+          return (
+            <tr key={index}>
+              <th scope="row">{section}</th>
+              <td>{method} {args.map((a) => a.toString()).join(', ')}</td>
+            </tr>
+          )  
+        }))
 
         setHeader(`${header.number}`);
         setHash(`${blockHash}`);
@@ -103,6 +116,15 @@ export const BlockDetails = () => {
           </tr>
         </tbody>
       </table>
+      <div>
+        <h2>Extrinsics</h2>
+        <table className="table">
+          <tbody>
+            {extrinsics}
+          </tbody>
+        </table>
+        
+      </div>
     </div>
   );
 };

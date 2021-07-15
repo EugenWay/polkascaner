@@ -9,6 +9,7 @@ import Alert from "../components/Alert";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import { hexToU8a, isHex } from "@polkadot/util";
+import { Polkadot } from "@polkadot/react-identicon";
 
 export const Home = () => {
   const [blocks, setBlocks] = useState([]);
@@ -18,7 +19,6 @@ export const Home = () => {
     type: "alert-primary",
     msg: "",
   });
-
 
   useEffect(() => {
     const connectChain = async () => {
@@ -41,7 +41,6 @@ export const Home = () => {
             ]);
           }
         );
-    
       } catch (err) {
         console.log(err);
       }
@@ -67,9 +66,9 @@ export const Home = () => {
       if (isValidAddressPolkadotAddress(event.target.value)) {
         window.location.href = `account/${event.target.value}`;
       } else if (
-        !isNaN(event.target.value) && event.target.value <= lastBlock
+        !isNaN(event.target.value) &&
+        event.target.value <= lastBlock
       ) {
-        console.log("here")
         window.location.href = `block/${event.target.value}`;
       } else {
         setAlert({

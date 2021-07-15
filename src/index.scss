@@ -33,3 +33,18 @@ code {
     text-align: center;
   }
 }
+
+.card-header {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  padding: 0.75rem;
+  border: none;
+
+  .adress {
+    color: #8f99a3;
+    font-weight: 400;
+    font-size: 1.2em;
+    margin-left: 10px;
+  }
+}
