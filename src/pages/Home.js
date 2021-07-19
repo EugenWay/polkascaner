@@ -9,11 +9,11 @@ import Alert from "../components/Alert";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import { hexToU8a, isHex } from "@polkadot/util";
-import { Polkadot } from "@polkadot/react-identicon";
 
 export const Home = () => {
   const [blocks, setBlocks] = useState([]);
   const [lastBlock, setLastBlock] = useState(null);
+  const [spec, setSpec] = useState(null)
   const [alert, setAlert] = useState({
     isActive: false,
     type: "alert-primary",
@@ -27,9 +27,14 @@ export const Home = () => {
         const api = await ApiPromise.create({ provider: wsProvider });
         await api.isReady;
 
+        setSpec(api.runtimeVersion.specVersion.toString())
+
         // Subscribe to the new headers
         const unsubHeads = await api.derive.chain.subscribeNewHeads(
-          (lastHeader) => {
+          async (lastHeader) => {
+
+            const info = await api.derive.accounts.info(`${lastHeader.author}`)
+
             setLastBlock(`${lastHeader.number}`);
             setBlocks((blocks) => [
               ...blocks,
@@ -37,10 +42,14 @@ export const Home = () => {
                 number: `${lastHeader.number}`,
                 hash: `${lastHeader.hash}`,
                 author: `${lastHeader.author}`,
+                identity: info.identity
               },
             ]);
+
           }
         );
+        
+
       } catch (err) {
         console.log(err);
       }
@@ -48,6 +57,13 @@ export const Home = () => {
 
     connectChain();
   }, []);
+
+
+  useEffect(() => {
+    console.log(blocks)
+  },[blocks])
+
+
 
   const isValidAddressPolkadotAddress = (address) => {
     try {
@@ -84,7 +100,7 @@ export const Home = () => {
 
   return lastBlock ? (
     <div>
-      <BlockChainInfo lastBlock={lastBlock} />
+      <BlockChainInfo lastBlock={lastBlock} runtimeVer={spec}/>
       <Alert type={alert.type} msg={alert.msg} isActive={alert.isActive} />
       <Search handler={getDataSearch} />
       <BlockList list={blocks} />

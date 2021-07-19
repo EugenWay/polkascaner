@@ -48,3 +48,50 @@ code {
     margin-left: 10px;
   }
 }
+
+.table .overflow {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table {
+  .overflow {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .header {
+    width: 100px;
+  }
+
+  .author {
+    .icon {
+      margin: 0px 0.5rem 0px 0px;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+    }
+
+    .info {
+      max-width: 200px;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+    }
+
+    .info div {
+      max-width: 150px;
+      overflow: hidden;
+      text-align: left;
+      text-overflow: ellipsis;
+      width: fit-content;
+      max-width: inherit;
+    }
+
+    .nickname {
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+  }
+}

@@ -35,6 +35,8 @@ export const BlockDetails = () => {
         const timestamp = await api.query.timestamp.now.at(blockHash);
         const date = new Date(timestamp.toNumber());
 
+        console.log(api.runtimeVersion.toHuman())
+
         setExtrinsics(signedBlock.block.extrinsics.map((ex, index) => {
 
           const { isSigned, meta, method: { args, method, section } } = ex;
