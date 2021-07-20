@@ -1,9 +1,11 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import PreLoader from "../components/Loader";
 import Identicon from "@polkadot/react-identicon";
 import { Link, useParams } from "react-router-dom";
+import {apiContext} from '../context/Api';
+
 
 export const BlockDetails = () => {
 
@@ -21,12 +23,13 @@ export const BlockDetails = () => {
   const [creationDate, setCreationDate] = useState(``);
   const [extrinsics, setExtrinsics] = useState(null);
 
+  // get api context 
+  const connnection = useContext(apiContext);
+
   useEffect(() => {
     const connectChain = async () => {
       try {
-        const wsProvider = new WsProvider("wss://rpc.polkadot.io");
-        const api = await ApiPromise.create({ provider: wsProvider });
-        await api.isReady;
+        const api = await connnection();
 
         const blockHash = await api.rpc.chain.getBlockHash(block);
         const signedBlock = await api.rpc.chain.getBlock(blockHash);

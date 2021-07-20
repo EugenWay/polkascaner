@@ -1,14 +1,13 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import BlockList from "../components/BlockList";
 import BlockChainInfo from "../components/BlockChainInfo";
 import PreLoader from "../components/Loader";
 import Search from "../components/Search";
 import Alert from "../components/Alert";
-
-import { ApiPromise, WsProvider } from "@polkadot/api";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import { hexToU8a, isHex } from "@polkadot/util";
+import {apiContext} from '../context/Api';
 
 export const Home = () => {
   const [blocks, setBlocks] = useState([]);
@@ -20,14 +19,17 @@ export const Home = () => {
     msg: "",
   });
 
+  // get api context 
+  const connnection = useContext(apiContext);
+  
   useEffect(() => {
+
     const connectChain = async () => {
       try {
-        const wsProvider = new WsProvider("wss://rpc.polkadot.io");
-        const api = await ApiPromise.create({ provider: wsProvider });
-        await api.isReady;
 
-        setSpec(api.runtimeVersion.specVersion.toString());
+        const api  = await connnection()
+        
+        setSpec(await api.runtimeVersion.specVersion.toString());
 
         await api.query.system.events((events) => {
 
@@ -77,6 +79,7 @@ export const Home = () => {
     };
 
     connectChain();
+
   }, []);
 
   const isValidAddressPolkadotAddress = (address) => {
@@ -117,7 +120,16 @@ export const Home = () => {
       <BlockChainInfo lastBlock={lastBlock} runtimeVer={spec} />
       <Alert type={alert.type} msg={alert.msg} isActive={alert.isActive} />
       <Search handler={getDataSearch} />
-      <BlockList list={blocks} />
+      
+      <div className="row">
+        <div className="col">
+          <BlockList list={blocks} />
+        </div>
+        <div className="col">
+          <h2>Exrintics</h2>
+        </div>
+      </div>
+      
     </div>
   ) : (
     <PreLoader />

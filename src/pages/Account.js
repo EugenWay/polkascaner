@@ -1,9 +1,10 @@
 import React, { Fragment } from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Identicon from "@polkadot/react-identicon";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import PreLoader from "../components/Loader";
+import {apiContext} from '../context/Api';
 
 export const Account = () => {
   const { adress } = useParams();
@@ -17,12 +18,13 @@ export const Account = () => {
   const [nonce, setNonce] = useState(null);
   const [fetching, setFetching] = useState(true);
 
+   // get api context 
+   const connnection = useContext(apiContext);
+
   useEffect(() => {
     const connectChain = async () => {
       try {
-        const wsProvider = new WsProvider("wss://rpc.polkadot.io");
-        const api = await ApiPromise.create({ provider: wsProvider });
-        await api.isReady;
+        const api  = await connnection()
 
         const { nonce, data: balance } = await api.query.system.account(adress);
         const all = await api.query.system.account(adress);

@@ -5,22 +5,24 @@ import { Account as AccountDetails } from "./pages/Account";
 import { BlockDetails } from "./pages/BlockDetails";
 import { SearchResult } from "./pages/SearchResult"
 import Navbar from "./components/Navbar";
-
+import {api, apiContext} from './context/Api';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <div className="container pt-4">
-        <Switch>
-          <Route path={"/"} exact component={Home} />
-          <Route path={"/about"} component={About} />
-          <Route path={"/account/:adress"} component={AccountDetails} />
-          <Route path={"/block/:id"} component={BlockDetails} />
-          <Route path={"/search"} component={SearchResult} />
-        </Switch>
-      </div>
-    </BrowserRouter>
+    <apiContext.Provider value={api}>
+      <BrowserRouter>
+        <Navbar />
+        <div className="container pt-4">
+          <Switch>
+            <Route path={"/"} exact component={Home} />
+            <Route path={"/about"} component={About} />
+            <Route path={"/account/:adress"} component={AccountDetails} />
+            <Route path={"/block/:id"} component={BlockDetails} />
+            <Route path={"/search"} component={SearchResult} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+    </apiContext.Provider>
   );
 }
 
