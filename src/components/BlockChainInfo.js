@@ -34,9 +34,6 @@ const BlockChainInfo = ({lastBlock, toggler, runtimeVer}) => {
              Runtime version
           </p>
           <h5 className="card-title">{runtimeVer}</h5>
-          <form className="justify-content-start">
-            <button className="btn btn-outline-success me-2" type="button" onClick={toggler}>Toggle Network</button>
-          </form>
         </div>
       </div>
     </div>

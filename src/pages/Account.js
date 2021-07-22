@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Identicon from "@polkadot/react-identicon";
-import { ApiPromise, WsProvider } from "@polkadot/api";
 import PreLoader from "../components/Loader";
 import {apiContext} from '../context/Api';
 

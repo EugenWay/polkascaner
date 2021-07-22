@@ -1,16 +1,18 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 import BlockList from "../components/BlockList";
+import TransactionList from "../components/TransactionList";
 import BlockChainInfo from "../components/BlockChainInfo";
 import PreLoader from "../components/Loader";
 import Search from "../components/Search";
 import Alert from "../components/Alert";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import { hexToU8a, isHex } from "@polkadot/util";
-import {apiContext} from '../context/Api';
+import { apiContext } from "../context/Api";
 
 export const Home = () => {
   const [blocks, setBlocks] = useState([]);
+  const [transfers, setTransfers] = useState([]);
   const [lastBlock, setLastBlock] = useState(null);
   const [spec, setSpec] = useState(null);
   const [alert, setAlert] = useState({
@@ -19,42 +21,55 @@ export const Home = () => {
     msg: "",
   });
 
-  // get api context 
+  // get api context
   const connnection = useContext(apiContext);
-  
-  useEffect(() => {
 
+  useEffect(() => {
+    console.log(transfers)
+  }, [transfers])
+
+  useEffect(() => {
     const connectChain = async () => {
       try {
+        const api = await connnection();
 
-        const api  = await connnection()
-        
         setSpec(await api.runtimeVersion.specVersion.toString());
 
+      
         await api.query.system.events((events) => {
 
-          const newEvents = events.map((record) => {
-            // Extract the phase, event and the event types
+          events.forEach((record) => {
+
             const { event, phase } = record;
             const types = event.typeDef;
 
-            const data = event.data.forEach((data, index) => {
-              console.log(`\t\t\t${types[index].type}: ${data.toString()}`);
-            });
+            if(`${event.section}` === 'balances' && `${event.method}` === 'Transfer') {
+              
+              const transfer = {
+                section: `${event.section}`,
+                method: `${event.method}`,
+                from: '',
+                to: '',
+                value: ''
+              }
 
-            return {
-              section: `${event.section}`,
-              method: `${event.method}`,
-              phase: `${phase}`,
-              data: event.data
+              const transferEvent = Array.from(event.data.toHuman())
+
+              transferEvent.forEach((data, index) => {
+
+                if (index === 0) transfer.from = data
+                if (index === 1) transfer.to = data
+                if (index === 2) transfer.value = data
+
+              });
+
+              setTransfers((transfers) => [...transfers, transfer].reverse())
+              
             }
-
-          }).filter((event) => event.section !== 'system' && (!['balances', 'treasury'].includes(event.section) || !['Deposit'].includes(event.method)) &&
-          (!['parasInclusion', 'inclusion'].includes(event.eventsection) || !['CandidateBacked', 'CandidateIncluded'].includes(event.method)))
-
-          console.log(newEvents)
-          
+      
+          });
         });
+      
 
         // Subscribe to the new headers
         const unsubHeads = await api.derive.chain.subscribeNewHeads(
@@ -79,7 +94,6 @@ export const Home = () => {
     };
 
     connectChain();
-
   }, []);
 
   const isValidAddressPolkadotAddress = (address) => {
@@ -120,16 +134,15 @@ export const Home = () => {
       <BlockChainInfo lastBlock={lastBlock} runtimeVer={spec} />
       <Alert type={alert.type} msg={alert.msg} isActive={alert.isActive} />
       <Search handler={getDataSearch} />
-      
+
       <div className="row">
         <div className="col">
           <BlockList list={blocks} />
         </div>
         <div className="col">
-          <h2>Exrintics</h2>
+          <TransactionList list={transfers}/>
         </div>
       </div>
-      
     </div>
   ) : (
     <PreLoader />

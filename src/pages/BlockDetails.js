@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
-import { ApiPromise, WsProvider } from "@polkadot/api";
 import PreLoader from "../components/Loader";
 import Identicon from "@polkadot/react-identicon";
 import { Link, useParams } from "react-router-dom";
