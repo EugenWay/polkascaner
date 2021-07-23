@@ -1,6 +1,6 @@
 import React from "react";
 import Identicon from "@polkadot/react-identicon";
-import { Link } from 'react-router-dom';
+import toShortAddress from '../util/toShortAddress'
 
 const BlockList = ({ list }) => {
   const size = 32;
@@ -9,24 +9,24 @@ const BlockList = ({ list }) => {
   const TransactionInfo = list.map((item, i) => {
     return (
       <tr key={i}>
-        <td className="author overflow">
+        <td className="transfer overflow">
           <div>
             <div className="icon">
                 <Identicon value={item.from} size={size} theme={theme} />
             </div>
-            <div className="info">{item.from}</div>
+            <div className="info">{toShortAddress(item.from)}</div>
           </div>
 
         </td>
-        <td className="author overflow">
+        <td className="transfer overflow">
           <div>
             <div className="icon">
                 <Identicon value={item.to} size={size} theme={theme} />
             </div>
-            <div className="info">{item.to}</div>
+            <div className="info">{toShortAddress(item.to)}</div>
           </div>
         </td>
-        <td className="hash overflow">{item.value}</td>
+        <td className="value overflow">{item.value}</td>
         
       </tr>
     );
