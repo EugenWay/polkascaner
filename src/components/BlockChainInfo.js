@@ -3,7 +3,7 @@ import React from "react";
 const BlockChainInfo = ({lastBlock, toggler, runtimeVer}) => {
   return (
     <div className="card-deck">
-      <div className="card-box">
+      <div className="card-box col-lg-3 col-sm-6">
         <div className="card-body">
           <p className="card-text">
             Last Block
@@ -11,7 +11,7 @@ const BlockChainInfo = ({lastBlock, toggler, runtimeVer}) => {
           <h5 className="card-title">{lastBlock}</h5>
         </div>
       </div>
-      <div className="card-box">
+      <div className="card-box col-lg-3 col-sm-6">
         <div className="card-body">
           <p className="card-text">
             All Transaction
@@ -20,7 +20,7 @@ const BlockChainInfo = ({lastBlock, toggler, runtimeVer}) => {
           
         </div>
       </div>
-      <div className="card-box">
+      <div className="card-box col-lg-3 col-sm-6">
         <div className="card-body">
           <p className="card-text">
             Active Accounts
@@ -28,7 +28,7 @@ const BlockChainInfo = ({lastBlock, toggler, runtimeVer}) => {
           <h5 className="card-title">382922</h5>
         </div>
       </div>
-      <div className="card-box">
+      <div className="card-box col-lg-3 col-sm-6">
         <div className="card-body">
             <p className="card-text">
              Runtime version

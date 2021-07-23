@@ -32,6 +32,12 @@ code {
     padding: 20px;
     text-align: center;
   }
+
+  @media (max-width: 1024px) {
+    .card-box {
+      width: calc(100% * (1 / 2) - 20px - 1px);
+    }
+  }
 }
 
 .card-header {
