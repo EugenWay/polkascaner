@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Identicon from "@polkadot/react-identicon";
 import PreLoader from "../components/Loader";
-import {apiContext} from '../context/Api';
+import { useApi } from "../Api/ApiContext";
 
 export const Account = () => {
   const { adress } = useParams();
@@ -17,8 +17,7 @@ export const Account = () => {
   const [nonce, setNonce] = useState(null);
   const [fetching, setFetching] = useState(true);
 
-   // get api context 
-   const connnection = useContext(apiContext);
+  const connnection = useApi();
 
   useEffect(() => {
     const connectChain = async () => {

@@ -8,7 +8,7 @@ import Search from "../components/Search";
 import Alert from "../components/Alert";
 import { decodeAddress, encodeAddress } from "@polkadot/keyring";
 import { hexToU8a, isHex } from "@polkadot/util";
-import { apiContext } from "../context/Api";
+import { useApi } from "../Api/ApiContext";
 
 export const Home = () => {
   const [blocks, setBlocks] = useState([]);
@@ -21,8 +21,7 @@ export const Home = () => {
     msg: "",
   });
 
-  // get api context
-  const connnection = useContext(apiContext);
+  const connnection = useApi();
 
   useEffect(() => {
     console.log(transfers)

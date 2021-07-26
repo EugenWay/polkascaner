@@ -5,11 +5,11 @@ import { Account as AccountDetails } from "./pages/Account";
 import { BlockDetails } from "./pages/BlockDetails";
 import { SearchResult } from "./pages/SearchResult"
 import Navbar from "./components/Navbar";
-import {api, apiContext} from './context/Api';
+import { ApiProvider } from './Api/ApiContext';
 
 function App() {
   return (
-    <apiContext.Provider value={api}>
+    <ApiProvider>
       <BrowserRouter>
         <Navbar />
         <div className="container pt-4">
@@ -22,7 +22,7 @@ function App() {
           </Switch>
         </div>
       </BrowserRouter>
-    </apiContext.Provider>
+    </ApiProvider>
   );
 }
 

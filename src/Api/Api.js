@@ -1,8 +1,5 @@
-import React, { useEffect } from 'react';
-
+import React from 'react';
 import { ApiPromise, WsProvider } from "@polkadot/api";
-
-export const apiContext = React.createContext();
 
 export const api = async(props) =>{
 

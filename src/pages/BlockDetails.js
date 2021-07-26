@@ -3,8 +3,8 @@ import { useState, useEffect, useContext } from "react";
 import PreLoader from "../components/Loader";
 import Identicon from "@polkadot/react-identicon";
 import { Link, useParams } from "react-router-dom";
-import {apiContext} from '../context/Api';
-
+import {ApiProvider} from '../Api/ApiContext';
+import { useApi } from "../Api/ApiContext";
 
 export const BlockDetails = () => {
 
@@ -22,8 +22,7 @@ export const BlockDetails = () => {
   const [creationDate, setCreationDate] = useState(``);
   const [extrinsics, setExtrinsics] = useState(null);
 
-  // get api context 
-  const connnection = useContext(apiContext);
+  const connnection = useApi();
 
   useEffect(() => {
     const connectChain = async () => {
